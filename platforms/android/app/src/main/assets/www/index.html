@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <title>Lista</title>
+    <style>
+      #list {
+        background-color: #4286f4;
+      }
+      li {
+        color: white;
+        font-size: 18px;
+        font-style: "Times New Roman";
+      }
+      input {
+        font-size: 18px;
+      }
+      button {
+        font-size: 16px;
+        color: white;
+        background-color: #4286f4;
+      }
+      button:hover{
+        background-color: orange;
+      }
+    </style>
+  </head>
+  <body>
+    <ol id="list">
+      <li>Elemento 1</li>
+    </ol>
+    <input type="text" id="txtElem" value="">
+    <button onClick="addElement()">Añadir elemento</button>
+    <script type="text/javascript">
+      function addElement() {
+        var newElem = document.getElementById("txtElem").value;
+        if (newElem != ""){
+          var node = document.createElement("li");
+          node.appendChild(document.createTextNode(newElem));
+          var list = document.getElementById("list");
+          list.appendChild(node);
+          document.getElementById("txtElem").value = "";
+        } else {
+          alert("Escribe texto para añadirlo a la lista!")
+        }
+      }
+    </script>
+  </body>
+</html>
