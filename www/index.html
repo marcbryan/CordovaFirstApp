@@ -2,6 +2,7 @@
 <html lang="en" dir="ltr">
   <head>
     <meta charset="utf-8">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
     <title>Lista</title>
     <style>
       #list {
@@ -11,11 +12,17 @@
         color: white;
         font-size: 18px;
         font-style: "Times New Roman";
+        padding: 2px;
       }
       input {
         font-size: 18px;
       }
       button {
+        font-size: 16px;
+        color: white;
+        background-color: #093887;
+      }
+      #add {
         font-size: 16px;
         color: white;
         background-color: #4885ed;
@@ -24,23 +31,42 @@
   </head>
   <body>
     <ol id="list">
-      <li>Elemento 1</li>
+      <li>Elemento 1 <button style="margin-left:30px">Borrar</button></li>
     </ol>
     <input type="text" id="txtElem" value="">
-    <button onClick="addElement()">Añadir elemento</button>
+    <button id="add" onClick="addElement()">Añadir elemento</button>
     <script type="text/javascript">
       function addElement() {
-        var newElem = document.getElementById("txtElem").value;
+        //JavaScript
+        //var newElem = document.getElementById("txtElem").value;
+        //if (newElem != ""){
+          //var node = document.createElement("li");
+          //node.appendChild(document.createTextNode(newElem));
+          //var list = document.getElementById("list");
+          //list.appendChild(node
+          //Para borrar el texto del input
+          //document.getElementById("txtElem").value = "";
+        //}
+
+        //JQuery
+        var newElem = $("#txtElem").val();
+        var style1 = "\"margin-left:30px\"";
+
         if (newElem != ""){
-          var node = document.createElement("li");
-          node.appendChild(document.createTextNode(newElem));
-          var list = document.getElementById("list");
-          list.appendChild(node);
-          document.getElementById("txtElem").value = "";
+          var node = $("<li>"+newElem+"<button style="+style1+">Borrar</button></li>");
+          $("#list").append(node);
+          //Para borrar el texto del input
+          $("#txtElem").val("");
         } else {
-          alert("Escribe texto para añadirlo a la lista!")
+          alert("Escribe texto para añadirlo a la lista!");
         }
       }
+
+      //Función para borrar una fila
+      $('ol').on('click','button', function(){
+        $(this).closest('li').remove();
+      });
+
     </script>
   </body>
 </html>
