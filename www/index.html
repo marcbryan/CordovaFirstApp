@@ -30,12 +30,23 @@
     </style>
   </head>
   <body>
-    <ol id="list">
-      <li>Elemento 1 <button style="margin-left:30px">Borrar</button></li>
-    </ol>
+    <ol id="list"></ol>
     <input type="text" id="txtElem" value="">
     <button id="add" onClick="addElement()">Añadir elemento</button>
     <script type="text/javascript">
+      var size = localStorage.length;
+      var style1 = "\"margin-left:30px\"";
+      var last = "-1";
+
+      for (var i=0; i < size; i++) {
+        var value = localStorage.getItem(localStorage.key(i));
+        var node = $("<li>"+value+"<button style="+style1+">Borrar</button></li>");
+        $("#list").append(node);
+        if (i == size-1) {
+          var keys = Object.keys(localStorage);
+          last = keys[i];
+        }
+      }
       function addElement() {
         //JavaScript
         //var newElem = document.getElementById("txtElem").value;
@@ -47,14 +58,18 @@
           //Para borrar el texto del input
           //document.getElementById("txtElem").value = "";
         //}
-
         //JQuery
         var newElem = $("#txtElem").val();
-        var style1 = "\"margin-left:30px\"";
-
         if (newElem != ""){
-          var node = $("<li>"+newElem+"<button style="+style1+">Borrar</button></li>");
-          $("#list").append(node);
+          if (last == "nombre"+size) {
+            localStorage.setItem("nombre"+(size+1), newElem);
+            var node = $("<li>"+newElem+"<button style="+style1+">Borrar</button></li>");
+            $("#list").append(node);
+          } else {
+            localStorage.setItem("nombre"+size, newElem);
+            var node = $("<li>"+newElem+"<button style="+style1+">Borrar</button></li>");
+            $("#list").append(node);
+          }
           //Para borrar el texto del input
           $("#txtElem").val("");
         } else {
@@ -64,9 +79,21 @@
 
       //Función para borrar una fila
       $('ol').on('click','button', function(){
-        $(this).closest('li').remove();
-      });
+        var str = $(this).closest('li').text();
+        var txt = str.substr(0, str.length-6);
 
+        $(this).closest('li').remove();
+
+        var keys = Object.keys(localStorage);
+        for (var i=0; i < localStorage.length; i++){
+          var value = localStorage.getItem(localStorage.key(i));
+          if (value == txt) {
+            localStorage.removeItem(keys[i]);
+            break;
+          }
+        }
+
+      });
     </script>
   </body>
 </html>
