@@ -34,10 +34,12 @@
     <input type="text" id="txtElem" value="">
     <button id="add" onClick="addElement()">Añadir elemento</button>
     <script type="text/javascript">
-      var size = localStorage.length;
       var style1 = "\"margin-left:30px\"";
-      var last = "-1";
+      //var size = localStorage.length;
+      //var last = "-1";
 
+      /*
+      // Clave:valor
       for (var i=0; i < size; i++) {
         var value = localStorage.getItem(localStorage.key(i));
         var node = $("<li>"+value+"<button style="+style1+">Borrar</button></li>");
@@ -46,7 +48,17 @@
           var keys = Object.keys(localStorage);
           last = keys[i];
         }
+      }*/
+
+      // JSON
+      var datos = JSON.parse(localStorage.getItem("datos"));
+      if (datos != null) {
+        //console.log(datos.length);
+        for (var i = 0; i < datos.length; i++) {
+          $("#list").append("<li>"+datos[i]+"<button style="+style1+">Borrar</button></li>");
+        }
       }
+
       function addElement() {
         //JavaScript
         //var newElem = document.getElementById("txtElem").value;
@@ -58,7 +70,10 @@
           //Para borrar el texto del input
           //document.getElementById("txtElem").value = "";
         //}
+
         //JQuery
+        /*
+        // Clave:valor
         var newElem = $("#txtElem").val();
         if (newElem != ""){
           if (last == "nombre"+size) {
@@ -74,6 +89,25 @@
           $("#txtElem").val("");
         } else {
           alert("Escribe texto para añadirlo a la lista!");
+        }*/
+
+        // JSON
+        var newElem = $("#txtElem").val();
+        if (newElem != ""){
+          if (datos == null) {
+            datos = [newElem];
+          } else {
+            datos.push(newElem);
+          }
+
+          localStorage.setItem("datos", JSON.stringify(datos));
+          var node = $("<li>"+newElem+"<button style="+style1+">Borrar</button></li>");
+          $("#list").append(node);
+
+          //Para borrar el texto del input
+          $("#txtElem").val("");
+        } else {
+          alert("Escribe texto para añadirlo a la lista!");
         }
       }
 
@@ -84,6 +118,8 @@
 
         $(this).closest('li').remove();
 
+        /*
+        // Clave:valor
         var keys = Object.keys(localStorage);
         for (var i=0; i < localStorage.length; i++){
           var value = localStorage.getItem(localStorage.key(i));
@@ -91,8 +127,16 @@
             localStorage.removeItem(keys[i]);
             break;
           }
-        }
+        }*/
 
+        // JSON
+        for (var i = 0; i < datos.length; i++) {
+          if (datos[i] == txt){
+            datos.splice(i, 1);
+            localStorage.setItem("datos", JSON.stringify(datos));
+            break;
+          }
+        }
       });
     </script>
   </body>
